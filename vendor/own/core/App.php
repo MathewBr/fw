@@ -11,6 +11,7 @@ class App{
         session_start();
         self::$appConteiner = Registry::instance();
         $this->pullParametrs();
+        new ErrorHandler();
     }
 
     protected function pullParametrs(){

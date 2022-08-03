@@ -7,4 +7,4 @@ new App();
 
 App::$appConteiner->writeParameters('test', 'TEST');
 
-debug(App::$appConteiner->getAllParameters());
+throw new Exception('Страница не найдена', 404);
