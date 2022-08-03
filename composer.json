@@ -1,7 +1,7 @@
 {
   "autoload": {
     "psr-4": {
-      "fw\\": "vendor/own",
+      "fw\\": "vendor/own/core",
       "app\\": "app"
     }
   },
