@@ -12,6 +12,7 @@ class App{
         self::$appConteiner = Registry::instance();
         $this->pullParametrs();
         new ErrorHandler();
+        Router::dispatch($query); //pass url to router
     }
 
     protected function pullParametrs(){
