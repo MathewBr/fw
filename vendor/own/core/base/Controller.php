@@ -8,6 +8,7 @@ abstract class Controller{
 
     public $viewFolder; //separately
     public $viewfile;//corresponds to the action
+    public $layout;
     public $prefix;//separately
     public $model;
     public $data = []; //transmitted data in view
@@ -25,10 +26,15 @@ abstract class Controller{
         $this->data = $data;
     }
 
-    public function setMeta($title='', $desc='',$keywords=''){
+    public function setMeta($title='', $description='',$keywords=''){
         $this->meta['title'] = $title;
-        $this->meta['desc'] = $desc;
+        $this->meta['description'] = $description;
         $this->meta['keywords'] = $keywords;
+    }
+
+    public function displayView(){
+        $viewObject = new View($this->route, $this->layout, $this->viewfile, $this->meta);
+        $viewObject->render($this->data);
     }
 
 }

@@ -26,6 +26,7 @@ class Router{
                 $action = self::lowerCamelCase(self::$route['action']) . 'Action';
                 if (method_exists($controllerObject, $action)){
                     $controllerObject->$action();
+                    $controllerObject->displayView();//every controller inherits this method from Controller
                 }else{
                     throw new \Exception("Метод {$controller}::{$action} не найден.", 404);
                 }
