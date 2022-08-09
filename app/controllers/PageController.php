@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-class PageController{
+class PageController extends AppFeature {
 
     public function indexAction(){
         echo __METHOD__;

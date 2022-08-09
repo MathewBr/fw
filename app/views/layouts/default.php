@@ -13,5 +13,10 @@
 
     <?=$content?>
 
+    <?php
+        $logs = \R::getDatabaseAdapter()->getDatabase()->getLogger();
+        debug($logs->grep('SELECT'), true, "redBeanPHP");
+    ?>
+
 </body>
 </html>

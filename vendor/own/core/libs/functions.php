@@ -13,9 +13,14 @@ function getAppURL(){
     return $protocol . '://' . $path;
 }
 
-function debug($arr, $htmlspecialchars = true){
+function debug($arr, $htmlspecialchars = true, $massage = ''){
     $steck = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,1);
     $out = print_r($arr, true);
+    if (!$arr){
+        ob_start();
+        var_dump($arr);
+        $out = ob_get_clean();
+    }
     if ($htmlspecialchars) $out = htmlspecialchars($out, ENT_QUOTES);
     echo '<br><pre style="border: solid thin rebeccapurple; display: inline-block; padding: 3px" xmlns="http://www.w3.org/1999/html">'
         . '<span style="color: red; background-color: beige; padding: 0 3px">'
@@ -26,6 +31,9 @@ function debug($arr, $htmlspecialchars = true){
         . '</span>'
         . '<span style="color: black; font-weight: bold; background-color: yellow; padding: 0 3px">'
         . $steck[0]['line']
+        . '</span>'
+        . '<span style="color: black; font-weight: bold; background-color: powderblue; padding: 0 3px">'
+        . $massage
         . '</span>'
         . '</br>'
         . $out
