@@ -9,7 +9,7 @@ define("CORE", ROOT . '/vendor/own/core');
 define("LIBS", ROOT . '/vendor/own/core/libs');
 define("CACHE", ROOT . '/tmp/cache');
 define("CONF", ROOT . '/config');
-define("DEF_LAY", 'default');
+define("DEF_LAY", 'watches');
 
 require_once LIBS . '/functions.php';
 
