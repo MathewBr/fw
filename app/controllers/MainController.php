@@ -11,7 +11,12 @@ class MainController extends AppFeature {
 
         $this->setMeta(App::$appContainer->getParameter('shop_name'), 'Описание...', 'Ключевые слова');//example use parameters
         $brands = \R::find('brand', 'LIMIT 3');
-        $this->passData(compact('brands'));
+
+        $hits = \R::find('product', "hit = '1' AND status = '1' LIMIT 8");//the hits and status values in the database are string, so this in ''
+
+        $this->passData(compact('brands', 'hits'));
+
+
 
 //        $posts = \R::findAll('test');
 //        $post = \R::findOne('test', 'id = ?', [2]);
