@@ -36,7 +36,6 @@ class View{
 
     public function render($data){ //display a view in layout
         if (is_array($data)) extract($data); //if necessary, unpack the array with data
-
         //preparing named meta tags
        $insertedMeta = '';//this variable insert in the corresponding layout.php
        foreach ($this->meta as $name => $metaContent){
