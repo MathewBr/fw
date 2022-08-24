@@ -13,6 +13,16 @@ function getAppURL(){
     return $protocol . '://' . $path;
 }
 
+function redirect($http = false){
+    if($http){
+        $redirect = $http;
+    }else{
+        $redirect = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
+    }
+    header("Location: $redirect");
+    exit();
+}
+
 function debug($arr, $htmlspecialchars = true, $massage = ''){
     $steck = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,1);
     $out = print_r($arr, true);
