@@ -6,3 +6,12 @@
     padding-left: 1rem;
     color: red;
 }
+
+.flex_container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex_container div:first-child{
+    width: 75%;
+}
