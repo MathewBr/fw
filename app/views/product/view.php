@@ -18,19 +18,23 @@
             <div class="col-md-9 single-main-left">
                 <div class="sngl-top">
                     <div class="col-md-5 single-top-left">
-                        <div class="flexslider">
-                            <ul class="slides">
-                                <li data-thumb="images/s-1.jpg">
-                                    <div class="thumb-image"> <img src="images/s-1.jpg" data-imagezoom="true" class="img-responsive" alt=""/> </div>
-                                </li>
-                                <li data-thumb="images/s-2.jpg">
-                                    <div class="thumb-image"> <img src="images/s-2.jpg" data-imagezoom="true" class="img-responsive" alt=""/> </div>
-                                </li>
-                                <li data-thumb="images/s-3.jpg">
-                                    <div class="thumb-image"> <img src="images/s-3.jpg" data-imagezoom="true" class="img-responsive" alt=""/> </div>
-                                </li>
-                            </ul>
-                        </div>
+
+                        <!-- FlexSlider -->
+                        <?php if ($gallery) : ?>
+                            <div class="flexslider">
+                                <ul class="slides">
+                                    <?php foreach ($gallery as $item) : ?>
+                                    <li data-thumb="images/<?=$item->img?>">
+                                        <div class="thumb-image"> <img src="images/<?=$item->img?>" data-imagezoom="true" class="img-responsive" alt=""/> </div>
+                                    </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        <?php else: ?>
+                            <div class="flexslider">
+                              <img src="images/<?=$product->img?>">
+                            </div>
+                        <?php endif; ?>
                         <!-- FlexSlider -->
 
                     </div>
@@ -170,6 +174,41 @@
                     </div>
                 </div>
               <?php endif; ?>
+
+                <?php if ($recently_viewed) : ?>
+                    <div class="latestproducts">
+                        <div class="product-one">
+                            <h4>Недавно просмотренные товары:</h4>
+
+                            <?php foreach ($recently_viewed as $item) : ?>
+                                <div class="col-md-4 product-left p-left">
+                                    <div class="product-main simpleCart_shelfItem">
+                                        <a href="product/<?=$item['alias']?>" class="mask"><img onerror="this.src = 'images/no_img.png';" class="img-responsive zoom-img" src="images/<?=$item['img']?>" alt="" /></a>
+                                        <div class="product-bottom">
+                                            <h3><a href="product/<?=$item['alias']?>"><?=$item['title'];?></a></h3>
+                                            <p>Explore Now</p>
+                                            <h4>
+                                                <a class="item_add add-to-cart-link" href="cart/add?id=<?=$item['id'];?>" data-id="<?=$item['id'];?>"><i></i></a> <span class=" item_price"><?=$curr['symbol_left'];?><?=$item['price'] * $curr['value']?><?=$curr['symbol_right'];?></span>
+
+                                                <?php if ($item['old_price'] && $item['old_price'] > $item['price']) : ?>
+                                                    <small class="color-red"><del><?=$curr['symbol_left'];?><?=$item['old_price'] * $curr['value']?><?=$curr['symbol_right'];?></del></small>
+                                                <?php endif; ?>
+                                            </h4>
+                                        </div>
+
+                                        <?php if ($item['old_price'] && $item['old_price'] > $item['price']) : ?>
+                                            <div class="srch">
+                                                <span><?=round(($item['price'] - $item['old_price'])*100/$item['old_price']) . "%"?></span>
+                                            </div>
+                                        <?php endif; ?>
+
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                <?php endif; ?>
 
             </div>
             <div class="col-md-3 single-right">

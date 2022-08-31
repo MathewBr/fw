@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\ProductModel;
+
 class ProductController extends AppFeature {
 
     public function viewAction(){
@@ -14,17 +16,27 @@ class ProductController extends AppFeature {
         //related product
         $related = \R::getAll("SELECT * FROM related_product JOIN product ON product.id = related_product.related_id WHERE related_product.product_id = ?", [$product->id]);
 
+        //gallery
+        $gallery = \R::findAll('gallery', 'product_id = ?', [$product->id]);
+
+        //recording and reading in cookies of the viewed product
+        $prod_model = new ProductModel();
+        $prod_model->setRecentlyViewed($product->id);
+        $r_viewed = $prod_model->getRecentlyViewed();
+        $recently_viewed = null;
+        if ($r_viewed){
+            $recently_viewed = \R::find('product', 'id IN (' . \R::genSlots($r_viewed) . ') LIMIT 3', $r_viewed);
+        }
+
         $this->setMeta($product->title, $product->description, $product->keywords);
-        $this->passData(compact('product', 'related'));
+        $this->passData(compact('product', 'related', 'gallery', 'recently_viewed'));
 
     }
 
     //хлебные крошки
-    //связанные товары
 
-    //в куки запрошенные товары
     //из куков просмотренные товары
-    //галерея
+
     //модификации товара
 
 }
