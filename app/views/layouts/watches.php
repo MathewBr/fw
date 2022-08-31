@@ -6,24 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
+
+    <base href="/">
+    <script src="js/jquery-1.11.0.min.js"></script>
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
-    <link href="css/memenu.css" rel="stylesheet" type="text/css" media="all"/>
     <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
     <link href="megamenujs/css/style.css" rel="stylesheet" type="text/css" media="all"/>
     <link href="megamenujs/css/ionicons.min.css" rel="stylesheet" type="text/css" media="all"/>
     <link href="css/mystyle.css" rel="stylesheet" type="text/css" media="all"/>
+    <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" />
 
-    <!--    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>-->
-    <!--    <script src="js/simpleCart.min.js"> </script>-->
-    <script src="js/jquery-1.11.0.min.js"></script>
-    <!--    <script src="js/jquery-1.12.0.min.js"></script>-->
-    <!--    <script src="../vendor/megamenujs/js/vendor/jquery-1.12.0.min.js"></script>-->
-
-    <script type="text/javascript" src="js/memenu.js"></script>
-    <script>$(document).ready(function () {
-            $(".memenu").memenu();
-        });</script>
     <script src="js/jquery.easydropdown.js"></script>
+    <script src="js/imagezoom.js"></script>
+    <script defer src="js/jquery.flexslider.js"></script>
+
 </head>
 <body>
 <!--top-header-->
@@ -68,8 +64,7 @@
 <!--top-header-->
 <!--start-logo-->
 <div class="logo">
-    <a href="index.html"><h1>Luxury Watches</h1></a>
-
+    <a href="<?=PATH?>"><h1>Luxury Watches</h1></a>
 </div>
 <!--start-logo-->
 <!--bottom-header-->
@@ -77,8 +72,6 @@
     <div class="container" style="width: auto; padding: 0;">
         <div class="header">
 
-
-<!--            <div class="col-md-12 header-left flex">-->
             <div class="col-md-12 header">
                 <div class="flex_container">
                     <div class="">
@@ -86,7 +79,7 @@
                             <div class="menu">
                                 <?php new \app\widgets\menu\Menu([
                                     'tpl' => WIDGETS . '/menu/menu_category/menu_categories.php',
-//                                'attrs' => ['style' => 'font-weight: bold; background-color: white;'],
+                                'attrs' => ['style' => 'font-weight: bold;'],
                                 ]); ?>
                             </div>
                         </div>
@@ -99,7 +92,7 @@
                             <input type="submit" value="">
                         </div>
                     </div>
-                    <!--                <div class="clearfix"></div>-->
+                    <div class="clearfix"></div>
                 </div>
             </div>
 
@@ -168,8 +161,7 @@
                 </form>
             </div>
             <div class="col-md-6 footer-right">
-                <p>© 2015 Luxury Watches. All Rights Reserved | Design by <a href="http://w3layouts.com/"
-                                                                             target="_blank">W3layouts</a></p>
+                <p>© <?=date('Y')?> Luxury Watches. All Rights Reserved.</p>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -195,9 +187,40 @@
                 $('.events').append("<li>after event fired.</li>");
             }
         });
-
     });
 </script>
 <script src="js/changeCurrency.js"></script>
+<script>
+    // Can also be used with $(document).ready()
+    $(document).ready(function() {
+        $('.flexslider').flexslider({
+            animation: "slide",
+            controlNav: "thumbnails"
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function() {
+        var menu_ul = $('.menu_drop > li > ul'),
+            menu_a  = $('.menu_drop > li > a');
+        menu_ul.hide();
+        menu_a.click(function(e) {
+            e.preventDefault();
+            if(!$(this).hasClass('active')) {
+                menu_a.removeClass('active');
+                menu_ul.filter(':visible').slideUp('normal');
+                $(this).addClass('active').next().stop(true,true).slideDown('normal');
+            } else {
+                $(this).removeClass('active');
+                $(this).next().stop(true,true).slideUp('normal');
+            }
+        });
+
+    });
+</script>
+<?php
+$logs = \R::getDatabaseAdapter()->getDatabase()->getLogger();
+debug($logs->grep('SELECT'), true, "redBeanPHP");
+?>
 </body>
 </html>

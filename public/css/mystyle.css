@@ -15,3 +15,29 @@
 .flex_container div:first-child{
     width: 75%;
 }
+
+.quantity {
+    display: flex;
+    align-content: stretch;
+    justify-content: stretch;
+    margin-top: 3px;
+}
+
+input[type="number"] {
+    background-color: #eee;
+    vertical-align: top;
+    outline: none;
+    margin-right: 1rem;
+    line-height: 3rem;
+    text-indent: 1rem;
+    display: inline-block;
+    width: 5rem;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    border-radius: 3px;
+}
+
+input[type="number"]:focus {
+    outline: 2px solid blue;
+}

@@ -6,6 +6,7 @@ use fw\Router;
 */
 
 //***here can be custom rules***
+Router::addRoute('^product/(?P<alias>[a-z0-9-]+)/?$', ['controller' => 'Product', 'action' => 'view']);
 
 //***default rules***
 //for admin
