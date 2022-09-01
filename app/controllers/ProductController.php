@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Breadcrumbs;
 use app\models\ProductModel;
 
 class ProductController extends AppFeature {
@@ -28,15 +29,12 @@ class ProductController extends AppFeature {
             $recently_viewed = \R::find('product', 'id IN (' . \R::genSlots($r_viewed) . ') LIMIT 3', $r_viewed);
         }
 
+        //breadcrumbs
+        $breadcrumbs = Breadcrumbs::getBreadcrumbs($product->category_id, $product->title);
+
         $this->setMeta($product->title, $product->description, $product->keywords);
-        $this->passData(compact('product', 'related', 'gallery', 'recently_viewed'));
+        $this->passData(compact('product', 'related', 'gallery', 'recently_viewed', 'breadcrumbs'));
 
     }
-
-    //хлебные крошки
-
-    //из куков просмотренные товары
-
-    //модификации товара
 
 }
