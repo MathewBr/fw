@@ -168,8 +168,17 @@
     </div>
 </div>
 <!--footer-end-->
+<?php $currency = \fw\App::$appContainer->getParameter('currency');?>
+<script>
+    let path = '<?=PATH;?>',
+        course = <?=$currency['value'];?>,
+        symbolLeft = '<?=$currency['symbol_left'];?>',
+        symbolRight = '<?=$currency['symbol_right'];?>';
+</script>
+
 <script src="js/responsiveslides.min.js"></script>
 <script src="megamenujs/js/megamenu.js"></script>
+<script src="js/myjs.js"></script>
 <script>
     // You can also use "$(window).load(function() {"
     $(function () {

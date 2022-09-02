@@ -32,8 +32,12 @@ class ProductController extends AppFeature {
         //breadcrumbs
         $breadcrumbs = Breadcrumbs::getBreadcrumbs($product->category_id, $product->title);
 
+        //modification
+        $modifications = \R::findAll('modification', 'product_id = ?', [$product->id]);
+//        debug($modifications);
+
         $this->setMeta($product->title, $product->description, $product->keywords);
-        $this->passData(compact('product', 'related', 'gallery', 'recently_viewed', 'breadcrumbs'));
+        $this->passData(compact('product', 'related', 'gallery', 'recently_viewed', 'breadcrumbs', 'modifications'));
 
     }
 
