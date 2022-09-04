@@ -59,7 +59,7 @@
                             <div class="product-bottom">
                                 <h3><a href="product/<?=$hit->alias?>"><?=$hit->title?></a></h3>
                                 <p><?=$hit->description?></p>
-                                <h4><a class="add-to-cart-link" href="card/add?id=<?=$hit->id?>"><i></i></a> <span class=" item_price"><?=$curr['symbol_left'];?><?=$hit->price * $curr['value']?><?=$curr['symbol_right'];?></span>
+                                <h4><a class="add-to-cart-link" href="card/add?id=<?=$hit->id?>" data-id="<?=$hit->id?>"><i></i></a> <span class=" item_price"><?=$curr['symbol_left'];?><?=$hit->price * $curr['value']?><?=$curr['symbol_right'];?></span>
                                     <?php if ($hit->old_price && $hit->old_price > $hit->price) : ?>
                                         <small class="color-red"><del><?=$curr['symbol_left'];?><?=$hit->old_price * $curr['value']?><?=$curr['symbol_right'];?></del></small>
                                     <?php endif; ?>

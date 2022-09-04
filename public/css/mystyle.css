@@ -41,3 +41,7 @@ input[type="number"] {
 input[type="number"]:focus {
     outline: 2px solid blue;
 }
+
+#cart table img {
+    height: 50px;
+}

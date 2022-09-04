@@ -37,4 +37,15 @@ abstract class Controller{
         $viewObject->render($this->data);
     }
 
+    //distinguishes a ajax-request from following a link
+    public function isAjax(){
+        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';
+    }
+
+    public function sendAjaxResponse($view, $vars = []){
+        extract($vars);
+        require APP . "/views/{$this->prefix}{$this->model}/{$view}.php";
+        die();
+    }
+
 }

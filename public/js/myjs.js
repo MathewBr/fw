@@ -1,38 +1,72 @@
 $(document).ready(function (){
-        let elemPrice = document.getElementById('base-price'),
-            elemOldPrice = document.getElementById('old-base-price'),
-            basePrice = (elemPrice !== null && elemPrice !== undefined) ? elemPrice.innerHTML : '',
-            baseOldPrice = (elemOldPrice !== null && elemOldPrice !== undefined) ? elemOldPrice.innerHTML : '';
+    /*Cart start*/
+    $('body').on('click', '.add-to-cart-link', function (e){ //delegation
+        e.preventDefault();
+        let id = $(this).data('id'),
+            quantity = $('.quantity input').val() ? $('.quantity input').val() : 1, //this element 'input' can have specified quantity
+            modification = $('.available select').val();
 
-        let tempElem = document.createElement('small');
-        tempElem.id = "tempElemOldPrice";
-        tempElem.className = "color-red";
+        $.ajax({
+            url: '/cart/add',
+            data: {id:id, qty: quantity, mod: modification},
+            type: 'GET',
+            success: function (res){
+                showCart(res);
+            },
+            error: function (err){
+                alert("Ошибка. Попробуйте позже.");
+                console.log(err.responseText);
+            },
+        });
+    });
 
-        $('.available select').on('change', function (){
-            let modId = $(this).val(),
-                color = $(this).find('option').filter(':selected').data('title'),
-                price = $(this).find('option').filter(':selected').data('price'),
-                oldPrice = $(this).find('option').filter(':selected').data('oldprice');
+    function showCart(cart){
+        if ($.trim(cart) == '<h3>Корзина пуста</h3>') {
+            $('#cart .modal-footer a, #cart .modal-footer .btn-danger').css('display', 'none');
+        }else{
+            $('#cart .modal-footer a, #cart .modal-footer .btn-danger').css('display', 'inline-block');
+        }
+        $('#cart .modal-body').html(cart);
+        $('#cart').modal(); //show modal window
+    }
+    /*Cart end*/
 
-            if (document.getElementById('tempElemOldPrice')) tempElem.remove();
+    /*modifications of products start*/
+    let elemPrice = document.getElementById('base-price'),
+        elemOldPrice = document.getElementById('old-base-price'),
+        basePrice = (elemPrice !== null && elemPrice !== undefined) ? elemPrice.innerHTML : '',
+        baseOldPrice = (elemOldPrice !== null && elemOldPrice !== undefined) ? elemOldPrice.innerHTML : '';
 
-            if (price){
-                if (elemPrice) elemPrice.innerHTML = symbolLeft + price + symbolRight;
-                if (oldPrice && Number(oldPrice) > Number(price)){
-                    if (elemOldPrice){
-                        elemOldPrice.innerHTML = '<del>' + symbolLeft + oldPrice + symbolRight + '</del>';
-                    } else {
-                        tempElem.innerHTML = '<del>' + symbolLeft + oldPrice + symbolRight + '</del>';
-                        if (elemPrice) elemPrice.after(tempElem);
-                    }
+    let tempElem = document.createElement('small');
+    tempElem.id = "tempElemOldPrice";
+    tempElem.className = "color-red";
+
+    $('.available select').on('change', function (){
+        let modId = $(this).val(),
+            color = $(this).find('option').filter(':selected').data('title'),
+            price = $(this).find('option').filter(':selected').data('price'),
+            oldPrice = $(this).find('option').filter(':selected').data('oldprice');
+
+        if (document.getElementById('tempElemOldPrice')) tempElem.remove();
+
+        if (price){
+            if (elemPrice) elemPrice.innerHTML = symbolLeft + price + symbolRight;
+            if (oldPrice && Number(oldPrice) > Number(price)){
+                if (elemOldPrice){
+                    elemOldPrice.innerHTML = '<del>' + symbolLeft + oldPrice + symbolRight + '</del>';
                 } else {
-                    if (elemOldPrice) elemOldPrice.innerHTML = '';
+                    tempElem.innerHTML = '<del>' + symbolLeft + oldPrice + symbolRight + '</del>';
+                    if (elemPrice) elemPrice.after(tempElem);
                 }
             } else {
-                if (elemPrice) elemPrice.innerHTML = basePrice;
-                if (elemOldPrice) elemOldPrice.innerHTML = baseOldPrice;
+                if (elemOldPrice) elemOldPrice.innerHTML = '';
             }
-        });
+        } else {
+            if (elemPrice) elemPrice.innerHTML = basePrice;
+            if (elemOldPrice) elemOldPrice.innerHTML = baseOldPrice;
+        }
+    });
+    /*modifications of products end*/
 });
 
 
