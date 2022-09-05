@@ -1,4 +1,3 @@
-$(document).ready(function (){
     /*Cart start*/
     $('body').on('click', '.add-to-cart-link', function (e){ //delegation
         e.preventDefault();
@@ -20,6 +19,22 @@ $(document).ready(function (){
         });
     });
 
+    $('#cart .modal-body').on('click', '.del-item', function (){
+        let id = $(this).data('id');
+        $.ajax({
+            url: '/cart/delete',
+            data: {id: id},
+            type: 'GET',
+            success: function (res){
+                showCart(res);
+            },
+            error: function (err){
+                alert("Error removal product.");
+                console.log(err.responseText);
+            }
+        });
+    });
+
     function showCart(cart){
         if ($.trim(cart) == '<h3>Корзина пуста</h3>') {
             $('#cart .modal-footer a, #cart .modal-footer .btn-danger').css('display', 'none');
@@ -28,6 +43,41 @@ $(document).ready(function (){
         }
         $('#cart .modal-body').html(cart);
         $('#cart').modal(); //show modal window
+
+        //update of inscriptions
+        if ($('.cart-sum').text()){
+            $('.simpleCart_total').html($('#cart .cart-sum').text());
+        }else{
+            $('.simpleCart_total').text('Empty Cart');
+        }
+    }
+
+    function lookInCart(){
+        $.ajax({
+            url: '/cart/show',
+            type: 'GET',
+            success: function (res){
+                showCart(res);
+            },
+            error: function (err){
+                alert("Ошибка. Попробуйте позже.");
+                console.log(err.responseText);
+            },
+        });
+    }
+
+    function clearCart(){
+        $.ajax({
+            url: '/cart/clear',
+            type: 'GET',
+            success: function (res){
+                showCart(res);
+            },
+            error: function (err){
+                alert("Ошибка. Попробуйте позже.");
+                console.log(err.responseText);
+            },
+        });
     }
     /*Cart end*/
 
@@ -67,6 +117,5 @@ $(document).ready(function (){
         }
     });
     /*modifications of products end*/
-});
 
 

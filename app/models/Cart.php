@@ -38,4 +38,35 @@ class Cart extends AppModel{
 
     }
 
+    public function deleteItem($id){
+        $qtyMinus = $_SESSION['cart'][$id]['qty'];
+        $sumMinus = $_SESSION['cart'][$id]['qty'] * $_SESSION['cart'][$id]['price'];
+        $_SESSION['cart.qty'] -= $qtyMinus;
+        $_SESSION['cart.sum'] -= $sumMinus;
+        unset($_SESSION['cart'][$id]);
+    }
+
+    public static function recalculate($newCurrencyCode, $possibleCurrencies){
+//        $objNewCurrency = \R::findOne('currency', 'code = ?', [$newCurrency]);
+        if (isset($_SESSION['cart.currency'])){// cart.currency is the current currency
+            if ((int) $_SESSION['cart.currency']['base']){
+                $_SESSION['cart.sum'] *= $possibleCurrencies[$newCurrencyCode]['value'];
+            }else{
+                //cast to the base type and multiply
+                $_SESSION['cart.sum'] = $_SESSION['cart.sum'] / $_SESSION['cart.currency']['value'] * $possibleCurrencies[$newCurrencyCode]['value'];
+            }
+            foreach ($_SESSION['cart'] as $k => $product){
+                if ((int) $_SESSION['cart.currency']['base']){
+                    $_SESSION['cart'][$k]['price'] *= $possibleCurrencies[$newCurrencyCode]['value'];
+                }else{
+                    //cast to the base type and multiply
+                    $_SESSION['cart'][$k]['price'] = $_SESSION['cart'][$k]['price'] / $_SESSION['cart.currency']['value'] * $possibleCurrencies[$newCurrencyCode]['value'];
+                }
+            }
+            foreach ($possibleCurrencies[$newCurrencyCode] as $k => $v){
+                $_SESSION['cart.currency'][$k] = $v;
+            }
+        }
+    }
+
 }

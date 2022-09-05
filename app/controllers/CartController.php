@@ -30,4 +30,31 @@ class CartController extends AppFeature {
 
     }
 
+    public function showAction(){
+        $this->sendAjaxResponse('cart_modal');
+    }
+
+    public function deleteAction(){
+        $id = !empty($_GET['id']) ? $_GET['id'] : null;//id may be '1' or '1-2'
+        if (isset($_SESSION['cart'][$id])){
+            $cart = new Cart();
+            $cart->deleteItem($id);
+        }
+        if ($this->isAjax()){
+            $this->sendAjaxResponse('cart_modal'); //variables are available globally in the session because the cart is stored in the session
+        }
+        redirect();
+    }
+
+    public function clearAction(){
+        unset($_SESSION['cart']);
+        unset($_SESSION['cart.qty']);
+        unset($_SESSION['cart.sum']);
+        unset($_SESSION['cart.currency']);
+        if ($this->isAjax()){
+            $this->sendAjaxResponse('cart_modal'); //variables are available globally in the session because the cart is stored in the session
+        }
+        redirect();
+    }
+
 }

@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Cart;
 use fw\App;
 
 class CurrencyController extends AppFeature {
@@ -16,6 +17,7 @@ class CurrencyController extends AppFeature {
             $curr = $defaultCurrency['code'];
         }
         setcookie('currency', $curr, time() + 3600*24*7, '/');
+        Cart::recalculate($curr, $possibleCurrencies);//recalculate prices in cart
         redirect();
     }
 }
