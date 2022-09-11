@@ -50,3 +50,7 @@ function debug($arr, $htmlspecialchars = true, $massage = ''){
         . '</pre></br>';
 }
 
+function h($str){
+    return htmlspecialchars($str, ENT_QUOTES);
+}
+
