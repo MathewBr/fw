@@ -156,3 +156,22 @@ span.twitter-typeahead {
     top: -2px;
 }
 /*login/logout end*/
+
+/*form validator start*/
+form .has-success .form-control{
+    border-color: green;
+}
+
+form .has-error .form-control{
+    border-color: red;
+}
+
+.has-error, .has-success{
+    position: relative;
+}
+
+.form-control-feedback{
+    right: 10px;
+    top: 25px;
+}
+/*form validator end*/

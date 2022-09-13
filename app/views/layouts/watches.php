@@ -118,6 +118,28 @@
 </div>
 <!--bottom-header-->
 
+<!--start error output if any-->
+<div class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <?php if (isset($_SESSION['errors'])) : ?>
+                    <div class="alert alert-danger">
+                        <?php echo $_SESSION['errors']; unset($_SESSION['errors']); ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (isset($_SESSION['success'])) : ?>
+                    <div class="alert alert-success">
+                        <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end error output if any-->
+
 <?= $content ?>
 
 <!--information-starts-->
@@ -216,6 +238,7 @@
         symbolRight = '<?=$currency['symbol_right'];?>';
 </script>
 
+<script src="js/validator.min.js"></script>
 <script src="js/responsiveslides.min.js"></script>
 <script src="megamenujs/js/megamenu.js"></script>
 <script src="js/typeahead.bundle.min.js"></script>
