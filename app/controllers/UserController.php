@@ -18,7 +18,7 @@ class UserController extends AppFeature{
                 $_SESSION['form-data'] = $post;
             }else{
                 $user->attributes['password'] = password_hash($user->attributes['password'], PASSWORD_DEFAULT);
-                if ($user->saveInDbase('user')){
+                if ($idUser = $user->saveInDbase('user')){
                     $_SESSION['success'] = 'Пользователь зарегистрирован.';
                 }else{
                     $_SESSION['errors'] = 'Ошибка записи в базу данных. Запись не добавлена.';
@@ -30,11 +30,21 @@ class UserController extends AppFeature{
     }
 
     public function loginAction(){
-
+        if (!empty($_POST)){
+            $user = new User();
+            if ($user->login()){
+                $_SESSION['success'] = 'Вы успешно авторизованы.';
+            }else{
+                $_SESSION['errors'] = 'Логин/пароль введены не верно';
+            }
+            redirect();
+        }
+        $this->setMeta('Вход');
     }
 
     public function logoutAction(){
-
+        if (isset($_SESSION['user'])) unset($_SESSION['user']);
+        redirect();
     }
 
 }
