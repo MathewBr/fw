@@ -27,29 +27,29 @@ class Pagination{
         $page1left = null;
         $page2right = null;
         $page1right = null;
-        if ($this->currentPage > 1){
-            $back = "<li><a class='nav-link' href='{$this->uri}page=" . ($this->currentPage - 1) ."'>&lt;</a></li>";
+        if( $this->currentPage > 1 ){
+            $back = "<li><a class='nav-link' href='{$this->uri}page=" .($this->currentPage - 1). "'>&lt;</a></li>";
         }
-        if ($this->currentPage < $this->countPages){
-            $forward = "<li><a class='nav-link' href='{$this->uri} page=" . ($this->currentPage + 1) . "'>&gt;</a></li>";
+        if( $this->currentPage < $this->countPages ){
+            $forward = "<li><a class='nav-link' href='{$this->uri}page=" .($this->currentPage + 1). "'>&gt;</a></li>";
         }
-        if ($this->currentPage > 3){
+        if( $this->currentPage > 3 ){
             $startpage = "<li><a class='nav-link' href='{$this->uri}page=1'>&laquo;</a></li>";
         }
-        if ($this->currentPage < ($this->countPages - 2)){
+        if( $this->currentPage < ($this->countPages - 2) ){
             $endpage = "<li><a class='nav-link' href='{$this->uri}page={$this->countPages}'>&raquo;</a></li>";
         }
-        if ($this->currentPage - 2 > 0){
-            $page2left = "<li><a class='nav-link' href='{$this->uri}page=" . ($this->currentPage - 2) . "'>" . ($this->currentPage - 2) . "</a></li>";
+        if( $this->currentPage - 2 > 0 ){
+            $page2left = "<li><a class='nav-link' href='{$this->uri}page=" .($this->currentPage-2). "'>" .($this->currentPage - 2). "</a></li>";
         }
-        if ($this->currentPage - 1 > 0){
-            $page1left = "<li><a class='nav-link' href='{$this->uri}page=" . ($this->currentPage - 1) . "'>" . ($this->currentPage - 1) . "</a></li>";
+        if( $this->currentPage - 1 > 0 ){
+            $page1left = "<li><a class='nav-link' href='{$this->uri}page=" .($this->currentPage-1). "'>" .($this->currentPage-1). "</a></li>";
         }
-        if ($this->currentPage + 2 > 0){
-            $page2right = "<li><a class='nav-link' href='{$this->uri}page=" . ($this->currentPage + 2) . "'>" . ($this->currentPage + 2) . "</a></li>";
+        if( $this->currentPage + 1 <= $this->countPages ){
+            $page1right = "<li><a class='nav-link' href='{$this->uri}page=" .($this->currentPage + 1). "'>" .($this->currentPage+1). "</a></li>";
         }
-        if ($this->currentPage + 1 > 0){
-            $page1right = "<li><a class='nav-link' href='{$this->uri}page=" . ($this->currentPage + 1) . "'>" . ($this->currentPage + 1) . "</a></li>";
+        if( $this->currentPage + 2 <= $this->countPages ){
+            $page2right = "<li><a class='nav-link' href='{$this->uri}page=" .($this->currentPage + 2). "'>" .($this->currentPage + 2). "</a></li>";
         }
         return '<ul class="pagination">' . $startpage.$back.$page2left.$page1left . '<li class="active"><a>' . $this->currentPage . '</a></li>' . $page1right.$page2right.$forward.$endpage . '</ul>';
     }
@@ -77,6 +77,13 @@ class Pagination{
 
     public function getRequestParameters(){
         $url = $_SERVER['REQUEST_URI'];
+
+        //fix the problem filter problem (url?filter=1,&filter=1,5,&page=2)
+        preg_match_all("#filter=[\d,&]#", $url, $matches);
+        if (count($matches[0]) > 1){
+            $url = preg_replace("#filter=[\d,&]+#", "", $url, 1);
+        }
+
         $url = explode('?', $url);
         $uri = $url[0] . '?';
         if (isset($url[1]) && $url[1] != ''){
