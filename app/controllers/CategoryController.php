@@ -27,18 +27,28 @@ class CategoryController extends AppFeature{
         $numberPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
         //applying filters start
-        $sql_part = '';
+        $sql_filter = '';
         if (!empty($_GET['filter'])){
+    /*
+     SELECT `product`.*  FROM `product`  WHERE category_id IN (6) AND id IN
+    (
+    SELECT product_id FROM attribute_product WHERE attr_id IN (1,5) GROUP BY product_id HAVING COUNT(product_id) = 2
+    )
+    */
             $filter = Filter::getFilter();
-            $sql_part = "AND id IN (SELECT product_id FROM attribute_product WHERE attr_id IN ($filter))";
+            if ($filter){
+                $count_group = Filter::getCountGroups($filter);
+//              $sql_filter = "AND id IN (SELECT product_id FROM attribute_product WHERE attr_id IN ($filter))";// first variant query
+                $sql_filter = "AND id IN (SELECT product_id FROM attribute_product WHERE attr_id IN ($filter) GROUP BY product_id HAVING COUNT(product_id) = $count_group)";
+            }
         }
 
         //applying filters end
-        $total = \R::count('product', "category_id IN ($nestedId) $sql_part");
+        $total = \R::count('product', "category_id IN ($nestedId) $sql_filter");
         $pagination = new Pagination($numberPage, $perPage, $total);
         $startPosition = $pagination->startPosition();
 
-        $products = \R::find('product', "category_id IN ($nestedId) $sql_part LIMIT $startPosition, $perPage");
+        $products = \R::find('product', "category_id IN ($nestedId) $sql_filter LIMIT $startPosition, $perPage");
 
         if ($this->isAjax()){
            $this->sendAjaxResponse('filter', compact('products', 'total', 'pagination'));

@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-
     <base href="/">
+    <link rel="shortcut icon" href="images/star.png" type="image/png" />
     <script src="js/jquery-1.11.0.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
