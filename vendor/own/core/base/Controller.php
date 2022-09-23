@@ -20,6 +20,7 @@ abstract class Controller{
         $this->viewfile = $route['action'];//file name corresponding to this action
         $this->prefix = $route['prefix'];
         $this->model = $route['controller'];//each controller has its own default model
+
     }
 
     public function passData($data){

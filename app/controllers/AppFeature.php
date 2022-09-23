@@ -14,6 +14,7 @@ class AppFeature extends Controller {
         new AppModel();
 
         $currencies = Currency::getCurrencies();
+
         App::$appContainer->writeParameters('currencies', $currencies); //write in Registry possible currencies
         App::$appContainer->writeParameters('currency', Currency::getCurrency($currencies)); //write in Registry the active currency
 
