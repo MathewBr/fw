@@ -425,6 +425,8 @@ SELECT `product`.*  FROM `product`  WHERE category_id IN (6) AND id IN
 За разграничение UserController и admin/UserController отвечает префикс в url - /admin. Простое переименование для разграничений
 можно внедрить переписав правила в route.php и в классе Route образование имени вызываемого класса.
 
+Урок 3. Виджеты главной страницы.
+=================================
 
 
 
