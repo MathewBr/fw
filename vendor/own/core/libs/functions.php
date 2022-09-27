@@ -23,7 +23,7 @@ function redirect($http = false){
     exit();
 }
 
-function debug($arr, $htmlspecialchars = true, $massage = ''){
+function debug($arr, $die = false, $htmlspecialchars = true, $massage = ''){
     $steck = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,1);
     $out = print_r($arr, true);
     if (!$arr){
@@ -48,6 +48,7 @@ function debug($arr, $htmlspecialchars = true, $massage = ''){
         . '</br>'
         . $out
         . '</pre></br>';
+    if ($die) die("Завершено");
 }
 
 function h($str){

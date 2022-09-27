@@ -17,4 +17,17 @@ class AppFeature extends Controller{
         }
         new AppModel();//so that you can call the class /R in descendants
     }
+
+    public function getRequestID($get = true, $id = 'id'){
+        if ($get){
+            $data = $_GET;
+        }else{
+            $data = $_POST;
+        }
+        $id = !empty($data[$id]) ? (int)$data[$id] : null;
+        if (!$id){
+            throw new \Exception('Не удалось получить ID', 404);
+        }
+        return $id;
+    }
 }
