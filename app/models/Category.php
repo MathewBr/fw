@@ -6,6 +6,20 @@ use fw\App;
 
 class Category extends AppModel{
 
+    public $attributes = [//attributes of category, use to write a new category
+            'title' => '',
+            'parent_id' => '',
+            'keywords' => '',
+            'description' => '',
+            'alias' => '',
+        ];
+
+    public $rules = [//for server validation
+        'required' => [
+            ['title'],
+        ],
+    ];
+
     public function getNestedCategories($currentId){
         $categories = App::$appContainer->getParameter('categories');
         $nestedId = '';//list nested categories

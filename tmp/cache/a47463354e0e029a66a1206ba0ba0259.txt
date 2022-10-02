@@ -1,4 +1,4 @@
-a:2:{s:4:"data";s:1617:"<li>
+a:2:{s:4:"data";s:1877:"<li>
     <a href="category/men">Men</a>
             <ul>
             <!--recursively called for each nested structure-->
@@ -40,10 +40,15 @@ a:2:{s:4:"data";s:1617:"<li>
             <!--recursively called for each nested structure-->
             <li>
     <a href="category/anne-klein">Anne Klein</a>
-    </li><li>
-    <a href="category/test">Test</a>
     </li>        </ul>
     </li>        </ul>
     </li><li>
     <a href="category/kids">Kids</a>
-    </li>";s:8:"end_time";i:1664389299;}
+    </li><li>
+    <a href="category/testovaya-kategoriya">Тестовая категория</a>
+            <ul>
+            <!--recursively called for each nested structure-->
+            <li>
+    <a href="category/testovaya-kategoriya-16">Тестовая категория</a>
+    </li>        </ul>
+    </li>";s:8:"end_time";i:1664701030;}
