@@ -11,6 +11,7 @@ define("LIBS", ROOT . '/vendor/own/core/libs');
 define("CACHE", ROOT . '/tmp/cache');
 define("CONF", ROOT . '/config');
 define("DEF_LAY", 'watches');
+define("IMG", ROOT . '/public/images');
 
 require_once LIBS . '/functions.php';
 

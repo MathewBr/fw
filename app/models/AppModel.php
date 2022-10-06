@@ -2,9 +2,15 @@
 
 namespace app\models;
 
+use fw\App;
 use fw\base\Model;
 
 class AppModel extends Model {
+
+    public static function getMime($type){
+        $possible_type = App::$appContainer->getParameter('possible_mime');
+        return isset($possible_type[$type]) ? $possible_type[$type] : false;
+    }
 
     public static function createAlias($table, $field, $str, $id){
         $str = self::str2url($str);

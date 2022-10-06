@@ -19,6 +19,9 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+
+    <link rel="stylesheet" href="bower_components/summernote/summernote.css">
+
     <link rel="stylesheet" href="mycss.css">
     <!-- Morris chart -->
 <!--    <link rel="stylesheet" href="bower_components/morris.js/morris.css">-->
@@ -41,6 +44,8 @@
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
+<!--    <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>-->
+<!--    <script src="bower_components/ckeditor/ckeditor.js"></script>-->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -594,7 +599,7 @@
 <!-- jQuery 3 -->
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
-<script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+<!--<script src="bower_components/jquery-ui/jquery-ui.min.js"></script>-->
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
     // $.widget.bridge('uibutton', $.ui.button);
@@ -613,7 +618,7 @@
 <!-- jQuery Knob Chart -->
 <!--<script src="bower_components/jquery-knob/dist/jquery.knob.min.js"></script>-->
 <!-- daterangepicker -->
-<script src="bower_components/moment/min/moment.min.js"></script>
+<!--<script src="bower_components/moment/min/moment.min.js"></script>-->
 <!--<script src="bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>-->
 <!-- datepicker -->
 <!--<script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>-->
@@ -625,11 +630,25 @@
 <!--<script src="bower_components/fastclick/lib/fastclick.js"></script>-->
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
+
+<!--<script src="bower_components/ckeditor/ckeditor.js"></script>-->
+<script src="bower_components/summernote/summernote.js"></script>
+<script src="bower_components/summernote/lang/summernote-ru-RU.js"></script>
+<!--<script src="bower_components/summernote/summernote-file/summernote-file.js"></script>-->
+
+<!--<script>-->
+<!--    ClassicEditor-->
+<!--        .create( document.querySelector( '#editor_area' ) )-->
+<!--        .catch( error => {-->
+<!--            console.error( error );-->
+<!--        } );-->
+<!--</script>-->
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <!--<script src="dist/js/pages/dashboard.js"></script>-->
 <!-- AdminLTE for demo purposes -->
 <!--<script src="dist/js/demo.js"></script>-->
 <script src="myjsLte.js"></script>
+<!--<script src="bower_components/summernote/summernote-file/summernote-file.js"></script>-->
 <?php
 $logs = \R::getDatabaseAdapter()->getDatabase()->getLogger();
 debug($logs->grep('SELECT'),0, true, "redBeanPHP");
