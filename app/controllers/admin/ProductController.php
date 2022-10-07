@@ -50,6 +50,7 @@ class ProductController extends AppFeature{
                 }
 
                 $product->editFilter($id, $form_data);
+                $product->editRelatedProduct($id, $form_data);
 
                 \R::store($againProduct);
                 $_SESSION['success'] = 'Товар добавлен';
