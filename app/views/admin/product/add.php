@@ -86,6 +86,13 @@
                             </label>
                         </div>
 
+                        <div class="form-group">
+                            <label for="related">Связанные товары</label>
+                            <select name="related[]" class="form-control select2" id="related" multiple></select>
+                        </div>
+
+                        <?php new \app\widgets\filters\Filter(null, APP . '/widgets/filters/admin_filter_tpl.php')?>
+
                     </div>
                     <div class="box-footer">
                         <button type="submit" class="btn btn-success">Добавить</button>

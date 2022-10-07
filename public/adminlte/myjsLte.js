@@ -32,3 +32,44 @@ $('.sidebar-menu a').each(function(){
         $(this).closest('.treeview').addClass('active');
     }
 });
+
+/*make a radio button out of a checkbox*/
+$(document).ready(function () {
+    let checkbox = document.querySelectorAll('.filters-checkbox');
+    checkbox.forEach((item)=>{
+        item.addEventListener('change', () =>{
+            if (item.checked){
+                checkbox.forEach(elem => {
+                    if (elem.name == item.name && elem.value != item.value){
+                        elem.checked = false;
+                    }
+                });
+            }
+        });
+    });
+});
+
+/* code for select2 */
+$(document).ready(function () {
+    $(".select2").select2({
+        placeholder: " Начните вводить наименование товара",
+        //minimumInputLength: 2,
+        cache: true,
+        ajax: {
+            url: adminpath + "/product/related-product",
+            delay: 250,
+            dataType: 'json',
+            data: function (params) {
+                return {
+                    q: params.term,
+                    page: params.page
+                };
+            },
+            processResults: function (data, params) {
+                return {
+                    results: data.items,
+                };
+            },
+        },
+    });
+});

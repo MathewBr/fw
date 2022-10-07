@@ -8,9 +8,11 @@ class Filter{
     public $groups;
     public $attrs;
     public $tpl;
+    public $filter;
 
-    public function __construct(){
-        $this->tpl = __DIR__ . '/filter_tpl.php';
+    public function __construct($filter = null, $tpl = ''){
+        $this->filter = $filter;
+        $this->tpl = $tpl ?: __DIR__ . '/filter_tpl.php';
         $this->run();
     }
 

@@ -49,6 +49,8 @@ class ProductController extends AppFeature{
                     $_SESSION['errors'] = 'Не удалось загрузить изображение.';
                 }
 
+                $product->editFilter($id, $form_data);
+
                 \R::store($againProduct);
                 $_SESSION['success'] = 'Товар добавлен';
             }
@@ -56,6 +58,34 @@ class ProductController extends AppFeature{
         }
 
         $this->setMeta('Новый товар');
+    }
+
+    public function relatedProductAction(){
+        //required format of returned data
+        /*$data = [
+            'items' => [
+                'id' => 1,
+                'text' => 'Товар 1',
+            ],
+            [
+              'id' => 2,
+              'text' => 'Товар 2',
+            ],
+        ];*/
+
+        $q = isset($_GET['q']) ? $_GET['q'] : '';
+        $data['items'] = [];
+        $products = \R::getAssoc('SELECT id, title FROM product WHERE title LIKE ? LIMIT 10', ["%{$q}%"]);
+        if($products){
+            $i = 0;
+            foreach($products as $id => $title){
+                $data['items'][$i]['id'] = $id;
+                $data['items'][$i]['text'] = $title;
+                $i++;
+            }
+        }
+        echo json_encode($data);
+        die();
     }
 
 }
