@@ -29,6 +29,7 @@ class ProductController extends AppFeature{
 
             $product->attributes['status'] = $product->attributes['status'] ? '1' : '0';
             $product->attributes['hit'] = $product->attributes['hit'] ? '1' : '0';
+            $product->getImg();
 
             if(!$product->validate($form_data)){
                 $product->showValidageErors();
@@ -37,17 +38,18 @@ class ProductController extends AppFeature{
             }
 
             if($id = $product->saveInDbase('product')){
+                $product->saveGallery($id);
                 $alias = AppModel::createAlias('product', 'alias', $form_data['title'], $id);
                 $mime = AppModel::getMime($img['type']);
-                $img_name = $alias . $mime;
+//                $img_name = $alias . $mime;
                 $againProduct = \R::load('product', $id);
                 $againProduct->alias = $alias;
 
-                if ($mime && !$img['error'] && move_uploaded_file($_FILES['img']['tmp_name'], IMG . '/' . $img_name)){
-                    $againProduct->img = $img_name;
-                }else{
-                    $_SESSION['errors'] = 'Не удалось загрузить изображение.';
-                }
+//                if ($mime && !$img['error'] && move_uploaded_file($_FILES['img']['tmp_name'], IMG . '/' . $img_name)){
+//                    $againProduct->img = $img_name;
+//                }else{
+//                    $_SESSION['errors'] = 'Не удалось загрузить изображение.';
+//                }
 
                 $product->editFilter($id, $form_data);
                 $product->editRelatedProduct($id, $form_data);
@@ -87,6 +89,21 @@ class ProductController extends AppFeature{
         }
         echo json_encode($data);
         die();
+    }
+
+    public function addImageAction(){
+        if ($_GET['upload']){
+            if ($_POST['name'] == 'single'){
+                $wmax = App::$appContainer->getParameter('img_width');
+                $hmax = App::$appContainer->getParameter('img_height');
+            }else{
+                $wmax = App::$appContainer->getParameter('gallery_width');
+                $hmax = App::$appContainer->getParameter('gallery_height');
+            }
+            $name = $_POST['name'];
+            $product = new Product();
+            $product->uploadImg($name, $wmax, $hmax);
+        }
     }
 
 }

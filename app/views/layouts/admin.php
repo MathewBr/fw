@@ -609,6 +609,7 @@
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="bower_components/select2/dist/js/select2.full.js"></script>
 <script src="/js/validator.min.js"></script>
+<script src="/js/ajaxupload.js"></script>
 <!-- Morris.js charts -->
 <!--<script src="bower_components/raphael/raphael.min.js"></script>-->
 <!--<script src="bower_components/morris.js/morris.min.js"></script>-->
