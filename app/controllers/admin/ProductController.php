@@ -25,7 +25,7 @@ class ProductController extends AppFeature{
             $product = new Product();
             $form_data = $_POST;
             $product->selectiveLoading($form_data);
-            $img = $_FILES['img'];
+//            $img = $_FILES['img'];
 
             $product->attributes['status'] = $product->attributes['status'] ? '1' : '0';
             $product->attributes['hit'] = $product->attributes['hit'] ? '1' : '0';
@@ -40,7 +40,7 @@ class ProductController extends AppFeature{
             if($id = $product->saveInDbase('product')){
                 $product->saveGallery($id);
                 $alias = AppModel::createAlias('product', 'alias', $form_data['title'], $id);
-                $mime = AppModel::getMime($img['type']);
+//                $mime = AppModel::getMime($img['type']);
 //                $img_name = $alias . $mime;
                 $againProduct = \R::load('product', $id);
                 $againProduct->alias = $alias;
@@ -61,6 +61,43 @@ class ProductController extends AppFeature{
         }
 
         $this->setMeta('Новый товар');
+    }
+
+    public function editAction(){
+        if(!empty($_POST)) {
+            $id = $this->getRequestID(false);
+            $product = new Product();
+            $data = $_POST;
+            $product->selectiveLoading($data);
+            $product->attributes['status'] = $product->attributes['status'] ? '1' : 0;
+            $product->attributes['hit'] = $product->attributes['hit'] ? '1' : '0';
+            $product->getImg();
+            if (!$product->validate($data)){
+                $product->showValidageErors();
+                redirect();
+            }
+            if ($product->update('product', $id)){
+                $product->editFilter($id, $data);
+                $product->editRelatedProduct($id, $data);
+                $product->saveGallery($id);
+                $alias = AppModel::createAlias('product', 'alias', $data['title'], $id);
+                $product_db = \R::load('product', $id);
+                $product_db->alias = $alias;
+                \R::store($product_db);
+                $_SESSION['success'] = 'Изменения сохранены';
+                redirect();
+            }
+        }
+            $id = $this->getRequestID();
+            $product = \R::load('product', $id);
+            App::$appContainer->writeParameters('parent_id', $product->category_id);
+            $filter = \R::getCol('SELECT attr_id FROM attribute_product WHERE product_id = ?', [$id]);
+            $related_product = \R::getAll("SELECT related_product.related_id, product.title FROM related_product JOIN product ON product.id = related_product.related_id WHERE related_product.product_id = ?", [$id]);
+            $gallery = \R::getCol('SELECT img FROM gallery WHERE product_id = ?', [$id]);
+            $_SESSION['single'] = $product->img;
+            $_SESSION['multi'] = $gallery;
+            $this->passData(compact('product', 'filter', 'related_product', 'gallery'));
+            $this->setMeta("Редактирование товара {$product->title}");
     }
 
     public function relatedProductAction(){
@@ -104,6 +141,19 @@ class ProductController extends AppFeature{
             $product = new Product();
             $product->uploadImg($name, $wmax, $hmax);
         }
+    }
+
+    public function deleteGalleryAction(){
+        $id = isset($_POST['id']) ? $_POST['id'] : null;
+        $src = isset($_POST['src']) ? $_POST['src'] : null;
+        if (!$id || !$src){
+            return;
+        }
+        if (\R::exec("DELETE FROM gallery WHERE product_id = ? AND img = ?", [$id, $src])){
+            @unlink(WWW . "/images/$src");
+            exit('1');
+        }
+        return;
     }
 
 }

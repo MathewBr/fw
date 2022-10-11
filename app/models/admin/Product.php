@@ -51,7 +51,7 @@ class Product extends AppModel{
         // if changing filters, delete all the old filters and write down the new ones (arrived in the $_POST)
         if(!empty($data['attrs'])){
             $result = array_diff($filter, $data['attrs']);
-            if(!$result){
+            if(!$result || count($filter) != count($data['attrs'])){
                 \R::exec("DELETE FROM attribute_product WHERE product_id = ?", [$id]);
                 $sql_part = '';
                 foreach($data['attrs'] as $v){

@@ -48,7 +48,7 @@ class CategoryController extends AppFeature{
         $pagination = new Pagination($numberPage, $perPage, $total);
         $startPosition = $pagination->startPosition();
 
-        $products = \R::find('product', "category_id IN ($nestedId) $sql_filter LIMIT $startPosition, $perPage");
+        $products = \R::find('product', "status = '1' AND category_id IN ($nestedId) $sql_filter LIMIT $startPosition, $perPage");
 
         if ($this->isAjax()){
            $this->sendAjaxResponse('filter', compact('products', 'total', 'pagination'));

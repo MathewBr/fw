@@ -24,6 +24,38 @@ $('.delete').click(function (){
     if (!res) return false;
 });
 
+//delete img in edit product start
+$('.del-item').on('click', function (){
+    let res = confirm('Подтвердите действие');
+    if (!res) return false;
+    let $this = $(this),
+        id = $this.data('id'),
+        src = $this.data('src');
+    $.ajax({
+        url: adminpath + '/product/delete-gallery',
+        data: {id: id, src: src},
+        type: 'POST',
+        beforeSend: function (){
+            $this.closest('.file-upload').find('.overlay').css({'display':'block'});
+        },
+        success: function (res){
+            setTimeout(function (){
+                $this.closest('.file-upload').find('.overlay').css({'display':'none'});
+                if (res == 1){
+                    $this.fadeOut();
+                }
+            }, 100);
+        },
+        error: function (){
+            setTimeout(function (){
+                $this.closest('.file-upload').find('.overlay').css({'display':'none'});
+                alert('Ошибка в функции удаления изображения');
+            }, 100);
+        }
+    });
+});
+//delete img in edit product end
+
 $('.sidebar-menu a').each(function(){
     let location = window.location.protocol + '//' + window.location.host + window.location.pathname;
     let link = this.href;
@@ -69,55 +101,62 @@ $(document).ready(function () {
                 return {
                     results: data.items,
                 };
-            },
-        },
+            }
+        }
     });
 });
 
-//for uploader img
-let buttonSingle = $("#single"),
-    buttonMulti = $("#multi"),
-    file;
-new AjaxUpload(buttonSingle, {
-    action: adminpath + buttonSingle.data('url') + "?upload=1",
-    data: {name: buttonSingle.data('name')},
-    name: buttonSingle.data('name'),
-    onSubmit: function(file, ext){
-        if (! (ext && /^(jpg|png|jpeg|gif)$/i.test(ext))){
-            alert('Ошибка! Разрешены только картинки');
-            return false;
-        }
-        buttonSingle.closest('.file-upload').find('.overlay').css({'display':'block'});
+if ($('div').is('#single')){
+    //for uploader img
+    let buttonSingle = $("#single"),
+        buttonMulti = $("#multi"),
+        file;
 
-    },
-    onComplete: function(file, response){
-        setTimeout(function(){
-            buttonSingle.closest('.file-upload').find('.overlay').css({'display':'none'});
+    if (buttonSingle){
+        new AjaxUpload(buttonSingle, {
+            action: adminpath + buttonSingle.data('url') + "?upload=1",
+            data: {name: buttonSingle.data('name')},
+            name: buttonSingle.data('name'),
+            onSubmit: function(file, ext){
+                if (! (ext && /^(jpg|png|jpeg|gif)$/i.test(ext))){
+                    alert('Ошибка! Разрешены только картинки');
+                    return false;
+                }
+                buttonSingle.closest('.file-upload').find('.overlay').css({'display':'block'});
 
-            response = JSON.parse(response);
-            $('.' + buttonSingle.data('name')).html('<img src="/images/' + response.file + '" style="max-height: 150px;">');
-        }, 1000);
+            },
+            onComplete: function(file, response){
+                setTimeout(function(){
+                    buttonSingle.closest('.file-upload').find('.overlay').css({'display':'none'});
+
+                    response = JSON.parse(response);
+                    $('.' + buttonSingle.data('name')).html('<img src="/images/' + response.file + '" style="max-height: 150px;">');
+                }, 100);
+            }
+        });
     }
-});
 
-new AjaxUpload(buttonMulti, {
-    action: adminpath + buttonMulti.data('url') + "?upload=1",
-    data: {name: buttonMulti.data('name')},
-    name: buttonMulti.data('name'),
-    onSubmit: function(file, ext){
-        if (! (ext && /^(jpg|png|jpeg|gif)$/i.test(ext))){
-            alert('Ошибка! Разрешены только картинки');
-            return false;
-        }
-        buttonMulti.closest('.file-upload').find('.overlay').css({'display':'block'});
+    if (buttonMulti) {
+        new AjaxUpload(buttonMulti, {
+            action: adminpath + buttonMulti.data('url') + "?upload=1",
+            data: {name: buttonMulti.data('name')},
+            name: buttonMulti.data('name'),
+            onSubmit: function(file, ext){
+                if (! (ext && /^(jpg|png|jpeg|gif)$/i.test(ext))){
+                    alert('Ошибка! Разрешены только картинки');
+                    return false;
+                }
+                buttonMulti.closest('.file-upload').find('.overlay').css({'display':'block'});
 
-    },
-    onComplete: function(file, response){
-        setTimeout(function(){
-            buttonMulti.closest('.file-upload').find('.overlay').css({'display':'none'});
+            },
+            onComplete: function(file, response){
+                setTimeout(function(){
+                    buttonMulti.closest('.file-upload').find('.overlay').css({'display':'none'});
 
-            response = JSON.parse(response);
-            $('.' + buttonMulti.data('name')).append('<img src="/images/' + response.file + '" style="max-height: 150px;">');
-        }, 1000);
+                    response = JSON.parse(response);
+                    $('.' + buttonMulti.data('name')).append('<img src="/images/' + response.file + '" style="max-height: 150px;">');
+                }, 1000);
+            }
+        });
     }
-});
+}
