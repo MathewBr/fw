@@ -47,8 +47,12 @@ abstract class Model{
         $_SESSION['errors'] = $errors;
     }
 
-    public function saveInDbase($tableIn){
-        $table = \R::dispense($tableIn);
+    public function saveInDbase($tableIn, $valid = true){
+        if ($valid){
+            $table = \R::dispense($tableIn);
+        }else{
+            $table = \R::xdispense($tableIn);
+        }
         foreach ($this->attributes as $name => $value){
             $table->$name = $value;
         }

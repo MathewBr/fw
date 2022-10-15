@@ -17,6 +17,11 @@ class Db{
         if (DEBUG){
             \R::debug(true, 1);
         }
+
+        //redbeanPHP не допускает имена таблиц с _, обходной маневр, см. документацию
+        \R::ext('xdispense', function ($type){
+            return \R::getRedBean()->dispense($type);
+        });
     }
 
 }
