@@ -8,7 +8,7 @@ return [
     'smtp_port' => '465',
     'smtp_protocol' => 'ssl',
     'smtp_login' => 'matvei7berezin@gmail.com',
-    'smtp_password' => 'xkomfqdbefyuuqgm',
+    'smtp_password' => '',
     'possible_mime' => [
         'image/jpeg' => '.jpg',
         'image/gif' => '.gif',
